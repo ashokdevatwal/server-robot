@@ -22,6 +22,25 @@ Production-oriented Linux monitoring daemon for Ubuntu, built in Go.
 go build -o server-monitor-0.1.0 ./cmd/monitor
 ```
 
+## Build And Publish Release (Local)
+Build binary assets locally and publish a GitHub release (public repo) so servers can install directly:
+
+```bash
+chmod +x scripts/release-local.sh
+./scripts/release-local.sh --tag v0.1.0 --repo ashokdevatwal/server-robot
+```
+
+Local-only build (no GitHub release upload):
+
+```bash
+./scripts/release-local.sh --tag v0.1.0 --skip-gh-release
+```
+
+Generated assets:
+- `dist/release/<tag>/server-monitor-linux-amd64.tar.gz`
+- `dist/release/<tag>/server-monitor-linux-arm64.tar.gz`
+- `dist/release/<tag>/sha256sums.txt`
+
 ## Move To Dist with .tar.gz
 ```bash
 tar -czvf dist/server-monitor-0.1.0.tar.gz server-monitor-0.1.0
@@ -72,6 +91,12 @@ Or run in one line:
 
 ```bash
 curl -fsSL https://raw.githubusercontent.com/ashokdevatwal/server-robot/main/scripts/quick-install.sh | sudo bash
+```
+
+Install a specific release tag:
+
+```bash
+curl -fsSL https://raw.githubusercontent.com/ashokdevatwal/server-robot/main/scripts/quick-install.sh | sudo env RELEASE_TAG=v0.1.0 bash
 ```
 
 Binary URL can be provided explicitly:
