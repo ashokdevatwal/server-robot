@@ -25,6 +25,7 @@ go build -o server-monitor-0.1.0 ./cmd/monitor
 ## Move To Dist with .tar.gz
 ```bash
 tar -czvf dist/server-monitor-0.1.0.tar.gz server-monitor-0.1.0
+rm server-monitor-0.1.0
 ```  
 
 
@@ -62,7 +63,7 @@ Non-interactive install is supported for automation tools (Ansible, cloud-init, 
 
 ```bash
 sudo NON_INTERACTIVE=true \
-	DOWNLOAD_URL="https://your-artifact-url/server-monitor-linux-amd64.tar.gz" \
+	DOWNLOAD_URL="https://github.com/ashokdevatwal/server-robot/blob/main/dist/server-monitor-0.1.0.tar.gz" \
 	EMAIL_ENABLED=true \
 	SMTP_HOST="email-smtp.us-east-2.amazonaws.com" \
 	SMTP_PORT=587 \
