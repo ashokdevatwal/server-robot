@@ -1,0 +1,31 @@
+monitor:
+  interval: 30s
+
+thresholds:
+  cpu: 85
+  ram: 90
+  disk: 90
+  network_rx_mbps: 1000
+  network_tx_mbps: 1000
+
+alerts:
+  email:
+    enabled: false
+    smtp_host: ""
+    smtp_port: 587
+    username: ""
+    password: ""
+    from: ""
+    to: ""
+
+logging:
+  retention_days: 30
+
+analysis:
+  collect_journal_logs: true
+  collect_syslog: true
+  process_history: true
+
+alert_rules:
+  sustain_duration: 5m
+  cooldown: 15m
