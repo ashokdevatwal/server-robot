@@ -3,3 +3,4 @@ server-monitor
 logs/*.log
 logs/status.json
 logs/incident-*/
+.env

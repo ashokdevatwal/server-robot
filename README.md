@@ -19,8 +19,14 @@ Production-oriented Linux monitoring daemon for Ubuntu, built in Go.
 
 ## Build
 ```bash
-go build -o server-monitor ./cmd/monitor
+go build -o server-monitor-0.1.0 ./cmd/monitor
 ```
+
+## Move To Dist with .tar.gz
+```bash
+tar -czvf dist/server-monitor-0.1.0.tar.gz server-monitor-0.1.0
+```  
+
 
 ## Validate Config
 ```bash
@@ -47,6 +53,31 @@ server-monitor restart
 ## Install on Ubuntu
 ```bash
 sudo ./scripts/install.sh
+```
+
+Interactive install now asks for SMTP, alert, and threshold settings during setup.
+
+## Easy Server Distribution
+Non-interactive install is supported for automation tools (Ansible, cloud-init, CI/CD):
+
+```bash
+sudo NON_INTERACTIVE=true \
+	DOWNLOAD_URL="https://your-artifact-url/server-monitor-linux-amd64.tar.gz" \
+	EMAIL_ENABLED=true \
+	SMTP_HOST="email-smtp.us-east-2.amazonaws.com" \
+	SMTP_PORT=587 \
+	SMTP_USERNAME="YOUR_SMTP_USER" \
+	SMTP_PASSWORD="YOUR_SMTP_PASS" \
+	EMAIL_FROM="admin@tractorjunction.com" \
+	EMAIL_TO="ops@tractorjunction.com" \
+	CPU_THRESHOLD=85 RAM_THRESHOLD=85 DISK_THRESHOLD=90 \
+	./scripts/install.sh --non-interactive
+```
+
+To keep existing config on upgrades:
+
+```bash
+sudo ./scripts/install.sh --skip-config
 ```
 
 ## Configuration
