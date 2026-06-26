@@ -58,12 +58,27 @@ sudo ./scripts/install.sh
 
 Interactive install now asks for SMTP, alert, and threshold settings during setup.
 
+### Direct Install On Server (Download + Run)
+Use this when you want installation to begin immediately on a fresh server:
+
+```bash
+curl -fsSL https://raw.githubusercontent.com/ashokdevatwal/server-robot/main/scripts/quick-install.sh -o quick-install.sh
+chmod +x quick-install.sh
+sudo ./quick-install.sh
+```
+
+Or run in one line:
+
+```bash
+curl -fsSL https://raw.githubusercontent.com/ashokdevatwal/server-robot/main/scripts/quick-install.sh | sudo bash
+```
+
 ## Easy Server Distribution
 Non-interactive install is supported for automation tools (Ansible, cloud-init, CI/CD):
 
 ```bash
 sudo NON_INTERACTIVE=true \
-	DOWNLOAD_URL="https://github.com/ashokdevatwal/server-robot/blob/main/dist/server-monitor-0.1.0.tar.gz" \
+	DOWNLOAD_URL="https://your-artifact-url/server-monitor-linux-amd64.tar.gz" \
 	EMAIL_ENABLED=true \
 	SMTP_HOST="email-smtp.us-east-2.amazonaws.com" \
 	SMTP_PORT=587 \
