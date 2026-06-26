@@ -1,0 +1,21 @@
+[Unit]
+Description=Server Monitor Agent
+After=network-online.target
+Wants=network-online.target
+
+[Service]
+Type=simple
+User=server-monitor
+Group=server-monitor
+Environment=SERVER_MONITOR_CONFIG=/etc/server-monitor-agent/config.yaml
+WorkingDirectory=/var/log/server-monitor-agent
+ExecStart=/usr/local/bin/server-monitor start
+Restart=always
+RestartSec=5
+NoNewPrivileges=true
+ProtectSystem=full
+ProtectHome=true
+PrivateTmp=true
+
+[Install]
+WantedBy=multi-user.target

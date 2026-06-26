@@ -1,0 +1,5 @@
+server-monitor
+*.zip
+logs/*.log
+logs/status.json
+logs/incident-*/
