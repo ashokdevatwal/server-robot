@@ -85,17 +85,17 @@ curl -fsSL https://raw.githubusercontent.com/ashokdevatwal/server-robot/main/scr
 Non-interactive install is supported for automation tools (Ansible, cloud-init, CI/CD):
 
 ```bash
-sudo NON_INTERACTIVE=true \
-	BINARY_URL="https://github.com/ashokdevatwal/server-robot/releases/download/v0.1.0/server-monitor-linux-amd64.tar.gz" \
-	EMAIL_ENABLED=true \
-	SMTP_HOST="email-smtp.us-east-2.amazonaws.com" \
-	SMTP_PORT=587 \
-	SMTP_USERNAME="YOUR_SMTP_USER" \
-	SMTP_PASSWORD="YOUR_SMTP_PASS" \
-	EMAIL_FROM="admin@tractorjunction.com" \
-	EMAIL_TO="ops@tractorjunction.com" \
-	CPU_THRESHOLD=85 RAM_THRESHOLD=85 DISK_THRESHOLD=90 \
-	./quick-install.sh --non-interactive
+curl -fsSL https://raw.githubusercontent.com/ashokdevatwal/server-robot/main/scripts/quick-install.sh | \
+  sudo env NON_INTERACTIVE=true \
+    BINARY_URL="https://github.com/ashokdevatwal/server-robot/releases/download/v0.1.0/server-monitor-linux-amd64.tar.gz" \
+    EMAIL_ENABLED=true \
+    SMTP_HOST="email-smtp.us-east-2.amazonaws.com" \
+    SMTP_PORT=587 \
+    SMTP_USERNAME="YOUR_SMTP_USER" \
+    SMTP_PASSWORD="YOUR_SMTP_PASS" \
+    EMAIL_FROM="admin@tractorjunction.com" \
+    EMAIL_TO="ops@tractorjunction.com" \
+    CPU_THRESHOLD=85 RAM_THRESHOLD=85 DISK_THRESHOLD=90 bash
 ```
 
 To keep existing config on upgrades:
