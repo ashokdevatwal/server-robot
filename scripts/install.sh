@@ -1,6 +1,9 @@
 #!/usr/bin/env bash
 set -euo pipefail
 
+SCRIPT_DIR="$(cd -- "$(dirname -- "${BASH_SOURCE[0]}")" && pwd)"
+REPO_ROOT="$(cd -- "$SCRIPT_DIR/.." && pwd)"
+
 APP_USER="server-monitor"
 APP_GROUP="server-monitor"
 INSTALL_DIR="/opt/server-monitor-agent"
@@ -161,8 +164,8 @@ install_binary() {
     return
   fi
 
-  if [[ -f ./server-monitor ]]; then
-    install -m 0755 ./server-monitor "$BIN_PATH"
+  if [[ -f "$REPO_ROOT/server-monitor" ]]; then
+    install -m 0755 "$REPO_ROOT/server-monitor" "$BIN_PATH"
     return
   fi
 
@@ -172,7 +175,7 @@ install_binary() {
     echo "Provide DOWNLOAD_URL or place ./server-monitor before running install."
     exit 1
   fi
-  go build -o "$BIN_PATH" ./cmd/monitor
+  go build -o "$BIN_PATH" "$REPO_ROOT/cmd/monitor"
 }
 
 load_existing_defaults() {
@@ -189,8 +192,8 @@ load_existing_defaults() {
 
   if [[ -f "$CONFIG_PATH" ]]; then
     source_config="$CONFIG_PATH"
-  elif [[ -f configs/config.yaml ]]; then
-    source_config="configs/config.yaml"
+  elif [[ -f "$REPO_ROOT/configs/config.yaml" ]]; then
+    source_config="$REPO_ROOT/configs/config.yaml"
   fi
 
   if [[ -n "$source_config" ]]; then
@@ -312,10 +315,14 @@ id -u "$APP_USER" >/dev/null 2>&1 || useradd --system --gid "$APP_GROUP" --no-cr
 usermod -a -G "$APP_GROUP" "$APP_USER"
 
 mkdir -p "$INSTALL_DIR" "$CONFIG_DIR" "$LOG_DIR"
-cp -r cmd internal go.mod go.sum "$INSTALL_DIR" || true
+for item in cmd internal go.mod go.sum; do
+  if [[ -e "$REPO_ROOT/$item" ]]; then
+    cp -r "$REPO_ROOT/$item" "$INSTALL_DIR/"
+  fi
+done
 install_binary
 configure_agent
-install -m 0644 systemd/server-monitor.service "$SERVICE_PATH"
+install -m 0644 "$REPO_ROOT/systemd/server-monitor.service" "$SERVICE_PATH"
 chown -R "$APP_USER":"$APP_GROUP" "$LOG_DIR" "$CONFIG_DIR"
 
 systemctl daemon-reload

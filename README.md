@@ -59,7 +59,8 @@ sudo ./scripts/install.sh
 Interactive install now asks for SMTP, alert, and threshold settings during setup.
 
 ### Direct Install On Server (Download + Run)
-Use this when you want installation to begin immediately on a fresh server:
+Use this when you want installation to begin immediately on a fresh server.
+This flow has no repo source dependency and installs from binary release assets only:
 
 ```bash
 curl -fsSL https://raw.githubusercontent.com/ashokdevatwal/server-robot/main/scripts/quick-install.sh -o quick-install.sh
@@ -73,12 +74,19 @@ Or run in one line:
 curl -fsSL https://raw.githubusercontent.com/ashokdevatwal/server-robot/main/scripts/quick-install.sh | sudo bash
 ```
 
+Binary URL can be provided explicitly:
+
+```bash
+curl -fsSL https://raw.githubusercontent.com/ashokdevatwal/server-robot/main/scripts/quick-install.sh | \
+	sudo env BINARY_URL="https://github.com/ashokdevatwal/server-robot/releases/download/v0.1.0/server-monitor-linux-amd64.tar.gz" bash
+```
+
 ## Easy Server Distribution
 Non-interactive install is supported for automation tools (Ansible, cloud-init, CI/CD):
 
 ```bash
 sudo NON_INTERACTIVE=true \
-	DOWNLOAD_URL="https://your-artifact-url/server-monitor-linux-amd64.tar.gz" \
+	BINARY_URL="https://github.com/ashokdevatwal/server-robot/releases/download/v0.1.0/server-monitor-linux-amd64.tar.gz" \
 	EMAIL_ENABLED=true \
 	SMTP_HOST="email-smtp.us-east-2.amazonaws.com" \
 	SMTP_PORT=587 \
@@ -87,13 +95,13 @@ sudo NON_INTERACTIVE=true \
 	EMAIL_FROM="admin@tractorjunction.com" \
 	EMAIL_TO="ops@tractorjunction.com" \
 	CPU_THRESHOLD=85 RAM_THRESHOLD=85 DISK_THRESHOLD=90 \
-	./scripts/install.sh --non-interactive
+	./quick-install.sh --non-interactive
 ```
 
 To keep existing config on upgrades:
 
 ```bash
-sudo ./scripts/install.sh --skip-config
+sudo systemctl restart server-monitor.service
 ```
 
 ## Configuration
